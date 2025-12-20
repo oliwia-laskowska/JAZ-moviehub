@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MovieHub - Movies</title>
+  <style>
+    body { font-family: system-ui; padding: 24px; max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 0 0 6px; }
+    .muted { color:#666; }
+    .topbar { display:flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .card { border: 1px solid #ddd; padding: 16px; border-radius: 12px; margin: 12px 0; }
+    a { color:#111; }
+    .btn {
+      display:inline-block; padding: 10px 14px; border-radius: 10px;
+      border: 1px solid #333; background: #111; color: #fff; text-decoration:none;
+    }
+    .btn.secondary { background:#444; border-color:#444; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #eee; text-align: left; vertical-align: top; }
+    thead th { border-bottom: 1px solid #ddd; background: #fafafa; position: sticky; top: 0; }
+    tbody tr:nth-child(odd) { background: #fcfcfc; }
+    code { background:#f3f3f3; padding:2px 6px; border-radius:6px; }
+    .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #ddd; background: #fafafa; font-size: 12px; }
+    .nowrap { white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Filmy</h1>
+    <div class="muted">
+      Widok serwerowy (Thymeleaf)
+      <span class="pill" th:text="'Liczba: ' + ${#lists.size(movies)}">Liczba: 0</span>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <a class="btn secondary" href="/">← Powrót</a>
+    <a class="btn" href="/api/movies" target="_blank" rel="noreferrer">Otwórz REST (/api/movies)</a>
+  </div>
+</div>
+
+<div class="card" th:if="${#lists.isEmpty(movies)}">
+  <b>Brak filmów.</b>
+  <p class="muted" style="margin:8px 0 0;">
+    Jeśli to środowisko lokalne: uruchom sync z panelu admina <code>/admin</code> (konto admin).
+  </p>
+</div>
+
+<div class="card" th:unless="${#lists.isEmpty(movies)}">
+  <table>
+    <thead>
+    <tr>
+      <th class="nowrap">ID</th>
+      <th>Tytuł</th>
+      <th>Reżyser</th>
+      <th class="nowrap">Rok</th>
+      <th class="nowrap">RT score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${movies}">
+      <td class="nowrap" th:text="${m.id}">1</td>
+      <td th:text="${m.title}">—</td>
+      <td th:text="${m.director != null ? m.director : '—'}">—</td>
+      <td class="nowrap" th:text="${m.releaseYear != null ? m.releaseYear : '—'}">—</td>
+      <td class="nowrap" th:text="${m.rtScore != null ? m.rtScore : '—'}">—</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+</body>
+</html>

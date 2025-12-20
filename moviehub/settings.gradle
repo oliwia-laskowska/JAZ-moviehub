@@ -1,0 +1,9 @@
+rootProject.name = 'moviehub'
+include(
+  'modules:common',
+  'modules:domain',
+  'modules:persistence',
+  'modules:integration',
+  'modules:service',
+  'modules:api'
+)

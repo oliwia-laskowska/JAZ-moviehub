@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Logowanie - MovieHub</title>
+    <style>
+        body { font-family: system-ui; padding: 24px; max-width: 520px; margin: 0 auto; }
+        .card { border: 1px solid #ddd; padding: 16px; border-radius: 12px; }
+        input { width: 100%; padding: 10px; margin: 6px 0 12px; }
+        button { padding: 10px 14px; border-radius: 10px; border: 1px solid #333; background: #111; color: #fff; }
+        .msg { padding: 10px; border-radius: 10px; margin-bottom: 12px; }
+        .err { background: #ffe5e5; border: 1px solid #ffb3b3; }
+        .ok { background: #e9ffe5; border: 1px solid #b9ffb3; }
+        a { color: #111; }
+    </style>
+</head>
+<body>
+<h1>MovieHub – logowanie</h1>
+
+<div class="card">
+    <div th:if="${error}" class="msg err">
+        Niepoprawny login lub hasło.
+    </div>
+    <div th:if="${logout}" class="msg ok">
+        Wylogowano poprawnie.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <label>Login</label>
+        <input name="username" placeholder="np. admin" required/>
+
+        <label>Hasło</label>
+        <input type="password" name="password" placeholder="••••••••" required/>
+
+        <button type="submit">Zaloguj</button>
+    </form>
+</div>
+
+<p style="margin-top:16px;">
+    <a th:href="@{/}">← Wróć na stronę główną</a>
+</p>
+</body>
+</html>

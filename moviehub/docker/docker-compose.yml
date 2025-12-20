@@ -1,0 +1,16 @@
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: moviehub-mariadb
+    environment:
+      MARIADB_DATABASE: moviehub
+      MARIADB_USER: moviehub
+      MARIADB_PASSWORD: moviehub
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - moviehub_db:/var/lib/mysql
+
+volumes:
+  moviehub_db:

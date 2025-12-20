@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3307/moviehub
+    username: moviehub
+    password: moviehub
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
+    com.example.moviehub: DEBUG

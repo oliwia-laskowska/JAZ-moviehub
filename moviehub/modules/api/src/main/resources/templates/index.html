@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MovieHub</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      background: #fafafa;
+      color: #111;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 60px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display:flex; align-items:center; gap: 10px; }
+    .logo {
+      width: 42px; height: 42px; border-radius: 14px;
+      background: #111; color: #fff;
+      display: grid; place-items: center;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+    h1 { margin: 0; font-size: 26px; }
+    .subtitle { margin: 6px 0 0; color:#555; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color:#222;
+      white-space: nowrap;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: #22c55e; }
+    .grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+    }
+    @media (max-width: 880px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.05);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 8px 0; color:#333; line-height: 1.45; }
+    a { color: #111; }
+    a:hover { text-decoration: underline; }
+    .actions { display:flex; gap:10px; flex-wrap: wrap; margin-top: 12px; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #111;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn.secondary {
+      background: #fff;
+      color: #111;
+      border-color: #cfcfcf;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: #111;
+      border-color: #e5e5e5;
+    }
+    ul { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 8px 0; color:#333; }
+    code {
+      background: #f3f3f3;
+      border: 1px solid #eaeaea;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+    }
+    .hint {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed #d9d9d9;
+      background: #fcfcfc;
+      color:#444;
+      font-size: 14px;
+    }
+    footer { margin-top: 16px; color:#777; font-size: 13px; }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">MH</div>
+      <div>
+        <h1>MovieHub</h1>
+        <p class="subtitle">Backend działa — wybierz, co chcesz otworzyć.</p>
+      </div>
+    </div>
+
+    <div class="pill" title="Aplikacja uruchomiona">
+      <span class="dot"></span>
+      Status: OK (localhost:8080)
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Szybki start</h2>
+      <p>
+        Zobacz listę filmów w widoku HTML:
+        <a href="/movies"><code>/movies</code></a>
+      </p>
+
+
+      <div class="actions">
+        <a class="btn" href="/movies">Otwórz /movies</a>
+        <a class="btn secondary" href="/admin">Panel admina</a>
+        <a class="btn ghost" href="/login">Zaloguj</a>
+      </div>
+
+
+    </section>
+
+    <aside class="card">
+      <h2>REST</h2>
+      <ul>
+        <li><a href="/api/movies">GET <code>/api/movies</code></a></li>
+        <li><a href="/actuator/health">GET <code>/actuator/health</code></a></li>
+      </ul>
+
+      <h2 style="margin-top:16px;">SPA React</h2>
+      <p>
+        Uruchom frontend w katalogu <code>frontend</code> (Vite) i wejdź na:
+        <a href="http://localhost:5173" target="_blank" rel="noreferrer"><code>http://localhost:5173</code></a>
+      </p>
+
+
+    </aside>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+plugins {
+  id 'io.spring.dependency-management'
+}
+
+dependencyManagement {
+  imports {
+    mavenBom 'org.springframework.boot:spring-boot-dependencies:3.3.5'
+  }
+}
+
+dependencies {
+  api 'org.springframework:spring-web'
+  api 'org.springframework:spring-context'
+  api 'com.fasterxml.jackson.core:jackson-databind'
+}
