@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReviewRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.example.moviehub.api.controller.rest</a> &gt; <span class="el_source">ReviewRestController.java</span></div><h1>ReviewRestController.java</h1><pre class="source lang-java linenums">package com.example.moviehub.api.controller.rest;
+
+import com.example.moviehub.common.error.ReviewDto;
+import com.example.moviehub.domain.mapper.ReviewMapper;
+import com.example.moviehub.service.ReviewService;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/reviews&quot;)
+public class ReviewRestController {
+
+    private final ReviewService reviewService;
+
+<span class="nc" id="L17">    public ReviewRestController(ReviewService reviewService) {</span>
+<span class="nc" id="L18">        this.reviewService = reviewService;</span>
+<span class="nc" id="L19">    }</span>
+
+    @GetMapping(&quot;/by-movie/{movieId}&quot;)
+    public List&lt;ReviewDto&gt; byMovie(@PathVariable Long movieId) {
+<span class="nc" id="L23">        return reviewService.listByMovie(movieId).stream().map(ReviewMapper::toDto).toList();</span>
+    }
+
+<span class="nc" id="L26">    public record CreateReviewRequest(Long movieId, int rating, String comment) {}</span>
+
+    @PostMapping
+    public ReviewDto add(Authentication auth, @RequestBody CreateReviewRequest req) {
+<span class="nc" id="L30">        var saved = reviewService.addReview(auth.getName(), req.movieId(), req.rating(), req.comment());</span>
+<span class="nc" id="L31">        return ReviewMapper.toDto(saved);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="21">
+      <module name="test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="moviehub.modules.api" options="-parameters" />
       <module name="moviehub.modules.api.main" options="-parameters" />
       <module name="moviehub.modules.api.test" options="-parameters" />
+      <module name="test" options="-parameters" />
+      <module name="test.main" options="-parameters" />
+      <module name="test.test" options="-parameters" />
     </option>
   </component>
 </project>

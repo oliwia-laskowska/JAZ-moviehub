@@ -25,7 +25,7 @@ public class Review extends BaseEntity {
     @Column(nullable = false, length = 2000)
     private String comment;
 
-    protected Review() {}
+    public Review() {}
 
     public Review(User user, Movie movie, int rating, String comment) {
         this.user = user;

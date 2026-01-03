@@ -1,6 +1,6 @@
 package com.example.moviehub.api.controller.rest;
 
-import com.example.moviehub.domain.dto.MovieDto;
+import com.example.moviehub.common.error.MovieDto;
 import com.example.moviehub.domain.mapper.MovieMapper;
 import com.example.moviehub.service.MovieService;
 import org.springframework.web.bind.annotation.*;

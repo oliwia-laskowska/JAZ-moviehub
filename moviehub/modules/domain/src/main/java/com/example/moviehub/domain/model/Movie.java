@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "movies", indexes = {
-        @Index(name = "idx_movie_external_id", columnList = "externalId", unique = true)
+        @Index(name = "idx_movie_source_external", columnList = "externalSource,externalId", unique = true)
 })
 public class Movie extends BaseEntity {
 
@@ -40,12 +40,20 @@ public class Movie extends BaseEntity {
     )
     private Set<Genre> genres = new HashSet<>();
 
-    protected Movie() {}
+    @Column(nullable = false, length = 20)
+    private String externalSource; // "GHIBLI" / "TMDB"
 
-    public Movie(String title, String externalId) {
+
+    public Movie() {}
+
+    public Movie(String title, String externalSource, String externalId) {
         this.title = title;
+        this.externalSource = externalSource;
         this.externalId = externalId;
     }
+
+    public String getExternalSource() { return externalSource; }
+    public void setExternalSource(String externalSource) { this.externalSource = externalSource; }
 
     public String getTitle() { return title; }
     public String getDescription() { return description; }

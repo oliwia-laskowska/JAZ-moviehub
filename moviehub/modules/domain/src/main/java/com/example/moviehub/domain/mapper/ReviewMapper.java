@@ -1,6 +1,6 @@
 package com.example.moviehub.domain.mapper;
 
-import com.example.moviehub.domain.dto.ReviewDto;
+import com.example.moviehub.common.error.ReviewDto;
 import com.example.moviehub.domain.model.Review;
 
 public class ReviewMapper {

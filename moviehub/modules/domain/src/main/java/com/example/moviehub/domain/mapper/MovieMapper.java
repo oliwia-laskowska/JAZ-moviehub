@@ -1,6 +1,6 @@
 package com.example.moviehub.domain.mapper;
 
-import com.example.moviehub.domain.dto.MovieDto;
+import com.example.moviehub.common.error.MovieDto;
 import com.example.moviehub.domain.model.Movie;
 
 import java.util.stream.Collectors;

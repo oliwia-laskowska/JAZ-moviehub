@@ -11,6 +11,11 @@ spring:
       hibernate:
         format_sql: true
 
+tmdb:
+  base-url: https://api.themoviedb.org/3
+  api-key: ${TMDB_API_KEY}
+  language: en-US
+
 logging:
   file:
     name: logs/app.log

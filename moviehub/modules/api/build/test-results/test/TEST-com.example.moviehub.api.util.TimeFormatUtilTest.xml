@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.moviehub.api.util.TimeFormatUtilTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-01-03T12:02:41" hostname="MacBook-Air-M1-Oliwia.local" time="0.092">
+  <properties/>
+  <testcase name="formatPl_null_returnsDash()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.077"/>
+  <testcase name="ago_hours()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.002"/>
+  <testcase name="ago_futureInstant_returnsZeroSecondsAgo()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.001"/>
+  <testcase name="ago_minutes()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.001"/>
+  <testcase name="ago_seconds()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.0"/>
+  <testcase name="ago_null_returnsDash()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.001"/>
+  <testcase name="formatPl_formatsNonNull()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.003"/>
+  <testcase name="ago_days()" classname="com.example.moviehub.api.util.TimeFormatUtilTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

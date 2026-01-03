@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminPageController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.example.moviehub.api.controller.mvc</a> &gt; <span class="el_source">AdminPageController.java</span></div><h1>AdminPageController.java</h1><pre class="source lang-java linenums">package com.example.moviehub.api.controller.mvc;
+
+import com.example.moviehub.api.websocket.NotificationsController;
+import com.example.moviehub.service.MovieService;
+import com.example.moviehub.service.SyncRunService;
+import com.example.moviehub.service.SyncService;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+public class AdminPageController {
+
+    private final SyncService syncService;
+    private final SyncRunService syncRunService;
+    private final NotificationsController notifications;
+    private final MovieService movieService;
+
+    public AdminPageController(
+            SyncService syncService,
+            SyncRunService syncRunService,
+            NotificationsController notifications,
+            MovieService movieService
+<span class="nc" id="L27">    ) {</span>
+<span class="nc" id="L28">        this.syncService = syncService;</span>
+<span class="nc" id="L29">        this.syncRunService = syncRunService;</span>
+<span class="nc" id="L30">        this.notifications = notifications;</span>
+<span class="nc" id="L31">        this.movieService = movieService;</span>
+<span class="nc" id="L32">    }</span>
+
+    @GetMapping(&quot;/admin&quot;)
+    public String adminPage(Model model) {
+<span class="nc" id="L36">        model.addAttribute(&quot;lastRun&quot;, syncRunService.lastRun().orElse(null));</span>
+<span class="nc" id="L37">        model.addAttribute(&quot;moviesCount&quot;, movieService.list().size());</span>
+<span class="nc" id="L38">        model.addAttribute(&quot;logsUrl&quot;, &quot;/api/admin/logs?lines=200&quot;);</span>
+<span class="nc" id="L39">        return &quot;admin&quot;;</span>
+    }
+
+    @PostMapping(&quot;/admin/sync&quot;)
+    public String syncFromUi(Authentication auth, RedirectAttributes ra) {
+<span class="nc" id="L44">        int upserts = syncService.syncFromInternet();</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        String who = (auth != null ? auth.getName() : &quot;anonymous&quot;);</span>
+<span class="nc" id="L47">        syncRunService.saveRun(upserts, who, &quot;UI&quot;);</span>
+
+<span class="nc" id="L49">        notifications.notifySync(&quot;UI sync completed: upserts=&quot; + upserts);</span>
+
+<span class="nc" id="L51">        ra.addFlashAttribute(&quot;syncMessage&quot;, &quot;Sync OK. Upserts: &quot; + upserts);</span>
+<span class="nc" id="L52">        return &quot;redirect:/admin&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

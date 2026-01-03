@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-    Optional<Movie> findByExternalId(String externalId);
+    Optional<Movie> findByExternalSourceAndExternalId(String externalSource, String externalId);
 
     @Override
     @EntityGraph(attributePaths = {"genres"})

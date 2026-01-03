@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StartupDataConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.example.moviehub.api.config</a> &gt; <span class="el_source">StartupDataConfig.java</span></div><h1>StartupDataConfig.java</h1><pre class="source lang-java linenums">package com.example.moviehub.api.config;
+
+import com.example.moviehub.api.websocket.NotificationsController;
+import com.example.moviehub.service.SyncService;
+import com.example.moviehub.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+<span class="nc" id="L13">public class StartupDataConfig {</span>
+
+<span class="nc" id="L15">    private static final Logger log = LoggerFactory.getLogger(StartupDataConfig.class);</span>
+
+    @Bean
+    CommandLineRunner seedUsers(UserService userService, SyncService syncService, NotificationsController notifications) {
+<span class="nc" id="L19">        return args -&gt; {</span>
+<span class="nc" id="L20">            userService.ensureUser(&quot;admin&quot;, &quot;admin123&quot;, UserService.ROLE_ADMIN);</span>
+<span class="nc" id="L21">            userService.ensureUser(&quot;user&quot;, &quot;user123&quot;, UserService.ROLE_USER);</span>
+
+            // initial sync (nie blokuj startu na błąd sieci)
+            try {
+<span class="nc" id="L25">                int n = syncService.syncFromInternet();</span>
+<span class="nc" id="L26">                notifications.notifySync(&quot;Initial sync completed: upserts=&quot; + n);</span>
+<span class="nc" id="L27">            } catch (Exception e) {</span>
+<span class="nc" id="L28">                log.warn(&quot;Initial sync skipped/failed: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L29">            }</span>
+<span class="nc" id="L30">        };</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

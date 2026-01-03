@@ -1,6 +1,6 @@
 package com.example.moviehub.api.controller.rest;
 
-import com.example.moviehub.domain.dto.ReviewDto;
+import com.example.moviehub.common.error.ReviewDto;
 import com.example.moviehub.domain.mapper.ReviewMapper;
 import com.example.moviehub.service.ReviewService;
 import org.springframework.security.core.Authentication;

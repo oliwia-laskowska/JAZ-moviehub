@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.moviehub.service.cache.CacheNamesTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-01-03T11:33:42" hostname="MacBook-Air-M1-Oliwia.local" time="0.074">
+  <properties/>
+  <testcase name="constants_shouldHaveExpectedValues()" classname="com.example.moviehub.service.cache.CacheNamesTest" time="0.074"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
