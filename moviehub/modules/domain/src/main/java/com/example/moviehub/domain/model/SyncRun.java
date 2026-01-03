@@ -6,24 +6,25 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-@Entity
+@Entity // Encja: zapis pojedynczego uruchomienia synchronizacji
 @Table(name = "sync_runs")
 public class SyncRun extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false) // Kiedy wykonano sync
     private Instant runAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false) // Ile rekordów zostało zaktualizowanych/dodanych (upsert)
     private int upserts;
 
-    @Column(nullable = false, length = 80)
-    private String triggeredBy; // np. admin, scheduler, api
+    @Column(nullable = false, length = 80) // Kto uruchomił sync (np. admin, scheduler)
+    private String triggeredBy;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 40) // Skąd uruchomiono sync (UI / SCHEDULER / API)
     private String source; // UI / SCHEDULER / API
 
     protected SyncRun() {}
 
+    // Konstruktor pomocniczy do tworzenia wpisu sync run
     public SyncRun(Instant runAt, int upserts, String triggeredBy, String source) {
         this.runAt = runAt;
         this.upserts = upserts;
@@ -31,8 +32,8 @@ public class SyncRun extends BaseEntity {
         this.source = source;
     }
 
-    public Instant getRunAt() { return runAt; }
-    public int getUpserts() { return upserts; }
-    public String getTriggeredBy() { return triggeredBy; }
-    public String getSource() { return source; }
+    public Instant getRunAt() { return runAt; } // timestamp uruchomienia
+    public int getUpserts() { return upserts; } // liczba upsertów
+    public String getTriggeredBy() { return triggeredBy; } // kto uruchomił
+    public String getSource() { return source; } // źródło uruchomienia
 }

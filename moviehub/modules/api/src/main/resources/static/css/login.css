@@ -1,0 +1,60 @@
+/* Layout strony logowania */
+body {
+    font-family: system-ui;
+    padding: 24px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+/* Karta z formularzem */
+.card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+/* Pola input */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Przycisk logowania */
+button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Komunikaty (error / ok) */
+.msg {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.err {
+    background: #ffe5e5;
+    border: 1px solid #ffb3b3;
+}
+
+.ok {
+    background: #e9ffe5;
+    border: 1px solid #b9ffb3;
+}
+
+/* Linki */
+a {
+    color: #111;
+}
+
+/* Link powrotu */
+.back {
+    margin-top: 16px;
+}

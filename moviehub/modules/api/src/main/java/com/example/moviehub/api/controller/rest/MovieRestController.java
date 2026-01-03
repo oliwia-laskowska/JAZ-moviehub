@@ -7,23 +7,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/movies")
+@RestController // REST API dla zasobu "movies"
+@RequestMapping("/api/movies") // Bazowa ścieżka dla endpointów filmów
 public class MovieRestController {
 
-    private final MovieService movieService;
+    private final MovieService movieService; // logika biznesowa dla filmów
 
     public MovieRestController(MovieService movieService) {
         this.movieService = movieService;
     }
 
-    @GetMapping
+    @GetMapping // GET /api/movies -> lista filmów
     public List<MovieDto> list() {
-        return movieService.list().stream().map(MovieMapper::toDto).toList();
+        // Pobiera filmy z serwisu i mapuje encje na DTO
+        return movieService.list().stream()
+                .map(MovieMapper::toDto)
+                .toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // GET /api/movies/{id} -> szczegóły filmu
     public MovieDto get(@PathVariable Long id) {
+        // Pobiera film po ID i zwraca jako DTO
         return MovieMapper.toDto(movieService.getById(id));
     }
 }

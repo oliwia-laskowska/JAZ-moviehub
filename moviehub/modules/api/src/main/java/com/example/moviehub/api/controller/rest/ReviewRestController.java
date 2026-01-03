@@ -8,26 +8,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/reviews")
+@RestController // REST API dla recenzji
+@RequestMapping("/api/reviews") // Bazowa ścieżka endpointów recenzji
 public class ReviewRestController {
 
-    private final ReviewService reviewService;
+    private final ReviewService reviewService; // logika biznesowa dla recenzji
 
     public ReviewRestController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/by-movie/{movieId}")
+    @GetMapping("/by-movie/{movieId}") // GET /api/reviews/by-movie/{movieId} -> recenzje dla filmu
     public List<ReviewDto> byMovie(@PathVariable Long movieId) {
-        return reviewService.listByMovie(movieId).stream().map(ReviewMapper::toDto).toList();
+        // Pobiera recenzje dla filmu i mapuje je na DTO
+        return reviewService.listByMovie(movieId).stream()
+                .map(ReviewMapper::toDto)
+                .toList();
     }
 
+    // Request body dla dodania recenzji
     public record CreateReviewRequest(Long movieId, int rating, String comment) {}
 
-    @PostMapping
+    @PostMapping // POST /api/reviews -> dodaje recenzję
     public ReviewDto add(Authentication auth, @RequestBody CreateReviewRequest req) {
+        // Używa zalogowanego użytkownika jako autora recenzji
         var saved = reviewService.addReview(auth.getName(), req.movieId(), req.rating(), req.comment());
-        return ReviewMapper.toDto(saved);
+        return ReviewMapper.toDto(saved); // zwraca zapisany obiekt jako DTO
     }
 }

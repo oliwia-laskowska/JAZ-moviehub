@@ -8,32 +8,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 
-@Configuration
+@Configuration // Konfiguracja beanów klientów do zewnętrznych API
 public class ExternalClientConfig {
 
-    @Bean("ghibliRestClient")
+    @Bean("ghibliRestClient") // RestClient do Studio Ghibli API
     RestClient ghibliRestClient() {
         return RestClient.builder()
-                .baseUrl("https://ghibliapi.vercel.app")
+                .baseUrl("https://ghibliapi.vercel.app") // stały baseUrl do Ghibli
                 .build();
     }
 
-    @Bean("tmdbRestClient")
+    @Bean("tmdbRestClient") // RestClient do TMDB (baseUrl z application.properties/yml)
     RestClient tmdbRestClient(@Value("${tmdb.base-url}") String baseUrl) {
         return RestClient.builder()
                 .baseUrl(baseUrl)
                 .build();
     }
 
-    @Bean
-    ExternalMovieClient externalMovieClient(@Qualifier("ghibliRestClient") RestClient ghibliRestClient) {
+    @Bean // Klient integracyjny dla Ghibli (/films)
+    ExternalMovieClient externalMovieClient(
+            @Qualifier("ghibliRestClient") RestClient ghibliRestClient
+    ) {
         return new ExternalMovieClient(ghibliRestClient);
     }
 
-    @Bean
-    TmdbClient tmdbClient(@Qualifier("tmdbRestClient") RestClient tmdbRestClient,
-                          @Value("${tmdb.api-key}") String apiKey,
-                          @Value("${tmdb.language:en-US}") String language) {
+    @Bean // Klient integracyjny dla TMDB (popular + credits)
+    TmdbClient tmdbClient(
+            @Qualifier("tmdbRestClient") RestClient tmdbRestClient,
+            @Value("${tmdb.api-key}") String apiKey, // klucz API z configu
+            @Value("${tmdb.language:en-US}") String language // język odpowiedzi
+    ) {
         return new TmdbClient(tmdbRestClient, apiKey, language);
     }
 }

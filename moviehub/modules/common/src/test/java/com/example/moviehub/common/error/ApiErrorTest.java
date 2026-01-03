@@ -1,6 +1,5 @@
 package com.example.moviehub.common.error;
 
-
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -13,6 +12,7 @@ class ApiErrorTest {
     void record_shouldStoreAllFields() {
         Instant ts = Instant.parse("2024-01-01T00:00:00Z");
 
+        // Tworzy ApiError z przykładowymi wartościami
         ApiError error = new ApiError(
                 ts,
                 400,
@@ -21,6 +21,7 @@ class ApiErrorTest {
                 "/movies"
         );
 
+        // Sprawdza, czy record poprawnie przechowuje wszystkie pola
         assertThat(error.timestamp()).isEqualTo(ts);
         assertThat(error.status()).isEqualTo(400);
         assertThat(error.error()).isEqualTo("Bad Request");

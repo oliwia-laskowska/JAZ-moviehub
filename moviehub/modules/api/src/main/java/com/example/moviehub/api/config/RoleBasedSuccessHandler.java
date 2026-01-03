@@ -8,6 +8,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import java.io.IOException;
 
+// Handler wykonywany po udanym logowaniu
 public class RoleBasedSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
@@ -17,13 +18,15 @@ public class RoleBasedSuccessHandler implements AuthenticationSuccessHandler {
             Authentication authentication
     ) throws IOException, ServletException {
 
+        // Sprawdza czy zalogowany użytkownik ma rolę ADMIN
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
+        // Przekierowanie zależne od roli użytkownika
         if (isAdmin) {
-            response.sendRedirect("/admin");
+            response.sendRedirect("/admin"); // Admin trafia do panelu admina
         } else {
-            response.sendRedirect("/");
+            response.sendRedirect("/"); // Zwykły user trafia na stronę główną
         }
     }
 }

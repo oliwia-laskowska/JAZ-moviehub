@@ -6,18 +6,19 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-@Configuration
-@EnableWebSocketMessageBroker
+@Configuration // Konfiguracja WebSocket + STOMP
+@EnableWebSocketMessageBroker // Włącza broker wiadomości dla STOMP
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
+        // Endpoint, pod który łączy się klient WebSocket
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*"); // CORS dla WS
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.enableSimpleBroker("/topic"); // Kanały publikacji (subscribe)
+        registry.setApplicationDestinationPrefixes("/app"); // Kanały wysyłania do backendu (send) np. /app/sync
     }
 }

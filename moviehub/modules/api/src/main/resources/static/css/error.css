@@ -1,0 +1,93 @@
+/* Ogólne ustawienia strony */
+body {
+    font-family: system-ui;
+    padding: 24px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+/* Nagłówek */
+h1 {
+    margin: 0 0 6px;
+}
+
+/* Tekst pomocniczy */
+.muted {
+    color: #666;
+}
+
+/* Karta z detalami */
+.card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+/* Linki */
+a {
+    color: #111;
+}
+
+/* Kod (np. /path) */
+code {
+    background: #f3f3f3;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Układ w poziomie */
+.row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Pojedyncza linia key-value */
+.kv {
+    margin: 10px 0;
+}
+
+.kv b {
+    display: inline-block;
+    min-width: 120px;
+}
+
+/* Przycisk link */
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Drugi wariant przycisku */
+.btn.secondary {
+    background: #444;
+    border-color: #444;
+}
+
+/* Sekcja technicznych szczegółów */
+.details {
+    margin-top: 12px;
+}
+
+.details summary {
+    cursor: pointer;
+}
+
+.trace {
+    white-space: pre-wrap;
+    margin: 10px 0 0;
+}
+
+/* Akcje na dole */
+.actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}

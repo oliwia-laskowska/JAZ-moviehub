@@ -1,0 +1,117 @@
+/* Ogólny układ strony */
+body {
+    font-family: system-ui;
+    padding: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Nagłówek */
+h1 {
+    margin: 0 0 6px;
+}
+
+/* Tekst pomocniczy */
+.muted {
+    color: #666;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+/* Kontener na buttony w topbar */
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Karty */
+.card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+/* Linki */
+a {
+    color: #111;
+}
+
+/* Button-like link */
+.btn {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Drugi wariant */
+.btn.secondary {
+    background: #444;
+    border-color: #444;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: top;
+}
+
+/* Sticky header */
+thead th {
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+    position: sticky;
+    top: 0;
+}
+
+/* Paski zebra */
+tbody tr:nth-child(odd) {
+    background: #fcfcfc;
+}
+
+/* Code */
+code {
+    background: #f3f3f3;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Pigułka */
+.pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    font-size: 12px;
+}
+
+/* Bez łamania linii */
+.nowrap {
+    white-space: nowrap;
+}
+
+/* Utility */
+.mt8 {
+    margin: 8px 0 0;
+}

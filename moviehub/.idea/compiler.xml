@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="21">
       <module name="test" target="17" />
+      <module name="test.main" target="17" />
+      <module name="test.test" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

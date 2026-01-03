@@ -14,18 +14,18 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
 
-                // PUBLIC API
-                registry.addMapping("/api/**")
-                        .allowedOriginPatterns("http://localhost:517*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                // API aplikacji - pozwala frontendowi  na komunikację z backendem
+                registry.addMapping("/api/**") // Dotyczy endpointów /api/*
+                        .allowedOriginPatterns("http://localhost:517*") // Dopuszcza localhost na porcie 517x
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Dozwolone metody HTTP
+                        .allowedHeaders("*") // Dowolne nagłówki w requestach
+                        .allowCredentials(true); // Pozwala na cookies / auth headers
 
-                // ACTUATOR (opcjonalnie)
-                registry.addMapping("/actuator/**")
+                // Actuator - opcjonalnie do monitoringu
+                registry.addMapping("/actuator/**") // Dotyczy endpointów /actuator/*
                         .allowedOriginPatterns("http://localhost:517*")
-                        .allowedMethods("GET")
-                        .allowedHeaders("*");
+                        .allowedMethods("GET") // Tylko odczyt
+                        .allowedHeaders("*"); // Dowolne nagłówki
             }
         };
     }

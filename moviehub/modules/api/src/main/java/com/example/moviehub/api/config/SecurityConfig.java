@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -23,21 +22,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.stream.Collectors;
 
 @Configuration
-@EnableMethodSecurity
+@EnableMethodSecurity // Włącza @PreAuthorize / @Secured na metodach
 public class SecurityConfig {
 
-    @Bean
+    @Bean // Haszowanie haseł
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    @Bean // Ładuje użytkownika z bazy i mapuje role na ROLE_*
     UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> userRepository.findByUsername(username)
                 .map(u -> org.springframework.security.core.userdetails.User.withUsername(u.getUsername())
                         .password(u.getPasswordHash())
-                        .disabled(!u.isEnabled())
-                        // w DB: "ADMIN" -> w Spring: "ROLE_ADMIN"
+                        .disabled(!u.isEnabled()) // jeśli user zablokowany -> nie zaloguje się
                         .authorities(u.getRoles().stream()
                                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                                 .collect(Collectors.toSet()))
@@ -45,7 +43,7 @@ public class SecurityConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
-    @Bean
+    @Bean // Provider autoryzacji oparty o UserDetailsService + PasswordEncoder
     DaoAuthenticationProvider authenticationProvider(UserDetailsService uds, PasswordEncoder encoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(uds);
@@ -53,38 +51,37 @@ public class SecurityConfig {
         return provider;
     }
 
-    @Bean
+    @Bean // Główny łańcuch filtrów bezpieczeństwa
     public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider) throws Exception {
         return http
-                .authenticationProvider(authenticationProvider)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+                .authenticationProvider(authenticationProvider) // używa providera
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS dla frontu
+                .csrf(csrf -> csrf.disable()) // dla API/frontu (cookies + SPA)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/", "/movies", "/css/**", "/js/**", "/webjars/**", "/ws/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // preflight CORS
+                        .requestMatchers("/", "/movies", "/css/**", "/js/**", "/webjars/**", "/ws/**").permitAll() // publiczne UI/statyczne
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // panel admina
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // admin API
+                        .requestMatchers("/api/**").permitAll() // publiczne endpointy API
+                        .anyRequest().authenticated() // reszta wymaga logowania
                 )
 
                 .formLogin(form -> form
-                        .loginPage("/login") // jeśli nie masz, usuń tę linię
-                        .successHandler(roleBasedSuccessHandler())
+                        .loginPage("/login") // własny endpoint logowania
+                        .successHandler(roleBasedSuccessHandler()) // redirect zależny od roli
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .logoutUrl("/logout") // endpoint wylogowania
+                        .logoutSuccessUrl("/") // po wylogowaniu wraca na /
+                        .invalidateHttpSession(true) // czyści sesję
+                        .deleteCookies("JSESSIONID") // usuwa cookie sesyjne
                 )
 
-
-                // BASIC: tylko dla API (curl)
+                // Basic auth  do testów API przez curl
                 .httpBasic(Customizer.withDefaults())
 
-                // API -> 401, UI -> /login
+                // API zwraca 401 zamiast przekierowania, UI przekierowuje na /login
                 .exceptionHandling(ex -> ex
                         .defaultAuthenticationEntryPointFor(
                                 (req, res, e) -> res.sendError(401),
@@ -98,21 +95,21 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
+    @Bean // Redirect po loginie na podstawie roli (admin -> /admin)
     public RoleBasedSuccessHandler roleBasedSuccessHandler() {
         return new RoleBasedSuccessHandler();
     }
 
-    @Bean
+    @Bean // Globalna konfiguracja CORS
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("http://localhost:517*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.setAllowCredentials(true); // pozwala na cookies / auth
+        config.addAllowedOriginPattern("http://localhost:517*"); // dopuszcza localhost:517x
+        config.addAllowedHeader("*"); // dowolne nagłówki
+        config.addAllowedMethod("*"); // dowolne metody
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", config); // stosuje do wszystkich ścieżek
         return source;
     }
 }

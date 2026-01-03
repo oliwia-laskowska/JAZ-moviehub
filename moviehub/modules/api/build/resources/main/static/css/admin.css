@@ -1,0 +1,80 @@
+/* Podstawowy layout strony */
+body {
+    font-family: system-ui;
+    padding: 24px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+/* Układ w jednej linii (flex) */
+.row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Karta z obramowaniem */
+.card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 12px;
+    margin: 12px 0;
+}
+
+/* Przycisk główny */
+button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Przycisk wylogowania */
+.btnLogout {
+    background: #444;
+    border-color: #444;
+}
+
+/* Linki */
+a {
+    color: #111;
+}
+
+/* Kod (np. endpoint logów) */
+code {
+    background: #f3f3f3;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Flash message po udanym sync */
+.flash {
+    margin-top: 12px;
+    color: green;
+}
+
+/* Tekst pomocniczy / szary */
+.muted {
+    color: #666;
+}
+
+/* Grid dla szczegółów lastRun */
+.grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 6px 16px;
+    margin-top: 10px;
+}
+
+/* Margines z góry */
+.mt12 {
+    margin-top: 12px;
+}
+
+/* Formularz w jednej linii (bez domyślnego margin) */
+.formInline {
+    margin: 0;
+}

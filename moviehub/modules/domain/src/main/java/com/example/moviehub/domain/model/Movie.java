@@ -7,44 +7,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "movies", indexes = {
-        @Index(name = "idx_movie_source_external", columnList = "externalSource,externalId", unique = true)
-})
+@Table(
+        name = "movies",
+        indexes = {
+                // Unikalność filmu w obrębie źródła
+                @Index(name = "idx_movie_source_external", columnList = "externalSource,externalId", unique = true)
+        }
+)
 public class Movie extends BaseEntity {
 
-    @NotBlank
-    @Column(nullable = false, length = 200)
+    @NotBlank // Walidacja: tytuł nie może być pusty
+    @Column(nullable = false, length = 200) // Kolumna obowiązkowa, max 200 znaków
     private String title;
 
-    @Lob
+    @Lob // Dłuższy tekst (np. TEXT/CLOB)
     private String description;
 
-    @Column(length = 120)
+    @Column(length = 120) // Opcjonalne pole, max 120 znaków
     private String director;
 
-    @Column(length = 120)
+    @Column(length = 120) // Opcjonalne pole, max 120 znaków
     private String producer;
 
-    private Integer releaseYear;
+    private Integer releaseYear; // Rok wydania (może być null)
+    private Integer rtScore; // Ocena
 
-    private Integer rtScore;
-
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100) // ID filmu w zewnętrznym źródle (np. TMDB)
     private String externalId;
 
-    @ManyToMany
+    @ManyToMany // Relacja wiele-do-wielu: film <-> gatunki
     @JoinTable(
             name = "movie_genres",
-            joinColumns = @JoinColumn(name="movie_id"),
-            inverseJoinColumns = @JoinColumn(name="genre_id")
+            joinColumns = @JoinColumn(name="movie_id"), // FK do movies
+            inverseJoinColumns = @JoinColumn(name="genre_id") // FK do genres
     )
     private Set<Genre> genres = new HashSet<>();
 
-    @Column(nullable = false, length = 20)
-    private String externalSource; // "GHIBLI" / "TMDB"
-
+    @Column(nullable = false, length = 20) // Źródło danych (np. GHIBLI, TMDB)
+    private String externalSource;
 
     public Movie() {}
+
 
     public Movie(String title, String externalSource, String externalId) {
         this.title = title;

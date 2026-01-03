@@ -11,15 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = GlobalExceptionHandlerTest.TestController.class)
-@Import(GlobalExceptionHandler.class)
+@WebMvcTest(controllers = GlobalExceptionHandlerTest.TestController.class) // Test tylko warstwy MVC dla TestController
+@Import(GlobalExceptionHandler.class) // Dołącza nasz globalny handler wyjątków
 class GlobalExceptionHandlerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    MockMvc mockMvc; // Narzędzie do wykonywania requestów bez uruchamiania serwera
 
     @Test
     void shouldReturn400ForIllegalArgumentException() throws Exception {
+        // IllegalArgumentException powinien być mapowany na 400 + ApiError JSON
         mockMvc.perform(get("/test/illegal"))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
@@ -32,6 +33,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void shouldReturn500ForAnyOtherException() throws Exception {
+        // Inny wyjątek (RuntimeException) powinien być mapowany na 500 + ApiError JSON
         mockMvc.perform(get("/test/error"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().contentType("application/json"))
@@ -42,17 +44,17 @@ class GlobalExceptionHandlerTest {
                 .andExpect(jsonPath("$.timestamp").exists());
     }
 
-    @RestController
+    @RestController // Prosty kontroler tylko na potrzeby testów
     static class TestController {
 
         @GetMapping("/test/illegal")
         public String illegal() {
-            throw new IllegalArgumentException("bad input");
+            throw new IllegalArgumentException("bad input"); // ma wejść w handler 400
         }
 
         @GetMapping("/test/error")
         public String error() {
-            throw new RuntimeException("boom");
+            throw new RuntimeException("boom"); // ma wejść w handler 500
         }
     }
 }

@@ -9,16 +9,20 @@ public class MovieMapper {
 
     private MovieMapper() {}
 
+    // Mapuje encję Movie na DTO używane w API
     public static MovieDto toDto(Movie m) {
         return new MovieDto(
-                m.getId(),
-                m.getTitle(),
-                m.getDescription(),
-                m.getDirector(),
-                m.getProducer(),
-                m.getReleaseYear(),
-                m.getRtScore(),
-                m.getGenres().stream().map(g -> g.getName()).collect(Collectors.toSet())
+                m.getId(), // ID filmu
+                m.getTitle(), // tytuł
+                m.getDescription(), // opis
+                m.getDirector(), // reżyser
+                m.getProducer(), // producent
+                m.getReleaseYear(), // rok wydania
+                m.getRtScore(), // ocena
+                // mapuje encje Genre -> nazwy gatunków (Set<String>)
+                m.getGenres().stream()
+                        .map(g -> g.getName())
+                        .collect(Collectors.toSet())
         );
     }
 }

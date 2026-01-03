@@ -5,23 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+@Controller // Kontroler MVC dla stron
 public class HomeController {
 
-    private final MovieService movieService;
+    private final MovieService movieService; // Serwis do pobierania listy filmów
 
     public HomeController(MovieService movieService) {
         this.movieService = movieService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/") // Strona główna
     public String index() {
-        return "index";
+        return "index"; // widok index.html
     }
 
-    @GetMapping("/movies")
+    @GetMapping("/movies") // Strona z listą filmów
     public String movies(Model model) {
-        model.addAttribute("movies", movieService.list());
-        return "movies";
+        model.addAttribute("movies", movieService.list()); // przekazuje filmy do szablonu
+        return "movies"; // widok movies.html
     }
 }
